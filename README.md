@@ -1,4 +1,4 @@
-# Github repository to publishing platform
+# Prepare Github repository for publishing platform
 
 ## Running the program
 
