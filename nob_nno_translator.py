@@ -5,7 +5,7 @@ import os
 from settings import *
 from common import join_patterns
 
-nob_to_nno_base_url = 'https://apertium.org/apy/translate?markUnknown=no&langpair=nob%7Cnno&q='
+nob_to_nno_base_url = 'https://apertium.org/apy/translate?format=html&markUnknown=no&langpair=nob%7Cnno&q='
 
 #Avoid translating certain parts of a single  line:
 #1. Inline code
@@ -24,18 +24,21 @@ def remove_notrans_tags(s):
 	return re.sub(notrans_tags_pattern, "", s)
 
 
-#This avoids that the translator removes indentations: 
-def encode_tabs(s):
-	return re.sub("%09", "%5Ct", s)
-def decode_tabs(s):
-	return re.sub(r"\\t", r"\t", s)
-
+#Some Markdown formatting needs to be explicitly encoded
+def encode(s):
+	s = s.replace("\t", "<tab>")
+	s = s.replace("*", "<asterisk>")
+	return s
+def decode(s):
+	s = s.replace("<tab>", "\t")
+	s = s.replace("<asterisk>", "*")
+	return s
 
 #Translate line from nob to nno, avoiding patterns from above:
 def translate_line(l, add_newline = True):
 	l = add_notrans_tags(l)
+	l = encode(l)
 	l = urllib.parse.quote_plus(l)
-	l = encode_tabs(l)
 	request_url = nob_to_nno_base_url + l
 	response = requests.get(request_url).json()
 	try:
@@ -43,7 +46,7 @@ def translate_line(l, add_newline = True):
 	except:
 		pass
 	l = remove_notrans_tags(l)
-	l = decode_tabs(l)
+	l = decode(l)
 	if add_newline:
 		l = l + "\n"
 	return l
