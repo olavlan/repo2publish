@@ -32,7 +32,7 @@ def decode_tabs(s):
 
 
 #Translate line from nob to nno, avoiding patterns from above:
-def translate_line(l):
+def translate_line(l, add_newline = True):
 	l = add_notrans_tags(l)
 	l = urllib.parse.quote_plus(l)
 	l = encode_tabs(l)
@@ -44,7 +44,8 @@ def translate_line(l):
 		pass
 	l = remove_notrans_tags(l)
 	l = decode_tabs(l)
-	l = l + "\n"
+	if add_newline:
+		l = l + "\n"
 	return l
 
 

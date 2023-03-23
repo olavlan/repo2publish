@@ -113,14 +113,14 @@ def split_file(input_file):
 
 			title_learning_object = titles_learning_objects[i] 
 			if nno:
-				title_learning_object = nob_nno_translator.translate_line(title_learning_object)
+				title_learning_object = nob_nno_translator.translate_line(title_learning_object, add_newline=False)
 			lines.append("title: \"" + title_learning_object + "\"\n")
 			
 			title_chain = titles_chains[correspondence[i]]
 			#Not sure if chain titles should be translated:
 			"""
 			if nno: 
-				title_chain = nob_nno_translator.translate_line(title_chain)
+				title_chain = nob_nno_translator.translate_line(title_chain, add_newline=False)
 			"""
 			lines.append("belongs_to_chain: \"" + title_chain + "\"\n")
 
