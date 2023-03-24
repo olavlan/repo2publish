@@ -10,10 +10,10 @@ INPUT_FOLDER = "../publish-ready/git_repo"
 #Where to store the files that are prepared for the publishing platform:
 OUTPUT_FOLDER = "../publish-ready/learning_objects" 
 
-#Which markdown headline is used for chains (chapters):
+#Which markdown heading is used for chains (chapters):
 CHAIN_LEVEL = "#"	
 
-#Which markdown headline is used for learning objects (sections):
+#Which markdown heading is used for learning objects (sections):
 LEARNING_OBJECT_LEVEL = "##"	
 
 #Strings to identify the language variants, in filenames etc.:
