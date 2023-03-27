@@ -35,7 +35,7 @@ def decode(s):
 	return s
 
 #Translate line from nob to nno, avoiding patterns from above:
-def translate_line(l, add_newline = True):
+def translate_line(line, add_newline = True):
 	l = add_notrans_tags(l)
 	l = encode(l)
 	l = urllib.parse.quote_plus(l)
@@ -44,7 +44,7 @@ def translate_line(l, add_newline = True):
 	try:
 		l = response['responseData']['translatedText']
 	except:
-		pass
+		return line
 	l = remove_notrans_tags(l)
 	l = decode(l)
 	if add_newline:
