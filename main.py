@@ -37,7 +37,7 @@ def line_numbers_sections(lines):
 
 def filename(s):
 	s = s.lower()
-	s = re.sub("\s", "_", s)
+	s = s.replace("\s", "_")
 	return s
 
 def get_titles(lines, line_numbers):
@@ -53,8 +53,6 @@ def get_titles(lines, line_numbers):
 		filenames.append(filename(line))
 	return titles, filenames
 
-def slice(lines, index_list):
-	return [lines[i] for i, l in enumerate(lines) if i in index_list]
 
 #Change filepath in an image line
 def change_image_line(line):
@@ -116,13 +114,15 @@ def split_file(input_file):
 				title_learning_object = nob_nno_translator.translate_line(title_learning_object, add_newline=False)
 			lines.append("title: \"" + title_learning_object + "\"\n")
 			
-			title_chain = titles_chains[correspondence[i]]
-			#Not sure if chain titles should be translated:
-			"""
-			if nno: 
-				title_chain = nob_nno_translator.translate_line(title_chain, add_newline=False)
-			"""
-			lines.append("belongs_to_chain: \"" + title_chain + "\"\n")
+			try:
+				title_chain = titles_chains[correspondence[i]]
+				lines.append("belongs_to_chain: \"" + title_chain + "\"\n")
+				"""
+				if nno: 
+					title_chain = nob_nno_translator.translate_line(title_chain, add_newline=False)
+				"""
+			except:
+				pass
 
 			lines.append("figures_to_include:\n")
 			for ffn in image_filenames:
