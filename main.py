@@ -37,7 +37,7 @@ def line_numbers_sections(lines):
 
 def filename(s):
 	s = s.lower()
-	s = s.replace("\s", "_")
+	s = s.replace(" ", "_")
 	return s
 
 def get_titles(lines, line_numbers):
