@@ -103,7 +103,10 @@ def split_file(input_file):
 			src = os.path.join(base_folder, ffn)
 			basename = os.path.basename(ffn)
 			dst = os.path.join(folder, basename)
-			shutil.copyfile(src, dst)
+			try:
+				shutil.copyfile(src, dst)
+			except: 
+				pass
 
 		def yaml_front_matter(nno):
 			lines = []
@@ -149,7 +152,7 @@ def main():
 	#Clone repo (have to delete old input folder first):
 	repo_url = "https://github.com/"+ REPO_NAME + ".git"
 	if not os.path.isdir(INPUT_FOLDER):
-		repo = git.Repo.clone_from(repo_url, INPUT_FOLDER)
+		repo = git.Repo.clone_from(repo_url, INPUT_FOLDER, branch = BRANCH)
 
 	#Get Markdown files
 	files = list(Path(INPUT_FOLDER).rglob("*.md" ))
@@ -171,7 +174,6 @@ def main():
 	for i, f in enumerate(content_files):
 		split_file(f)
 		progress_message(i+1, f)
-
 
 
 

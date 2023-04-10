@@ -1,8 +1,11 @@
 #Used to change the names of media files:
 PLATFORM_MEDIA_PATH = "/media/markdowncontent/assosiated_files/"
 
-#The repository to import (main branch): 
-REPO_NAME = "olavlan/it2" 
+#The repository to import: 
+REPO_NAME = "olavlan/it2"
+
+#Which branch of the repository to import:
+BRANCH = "python"
 
 #Where to store the respository on the computer:
 INPUT_FOLDER = "../publish-ready/git_repo"  

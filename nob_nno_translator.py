@@ -36,6 +36,7 @@ def decode(s):
 
 #Translate line from nob to nno, avoiding patterns from above:
 def translate_line(line, add_newline = True):
+	l = line
 	l = add_notrans_tags(l)
 	l = encode(l)
 	l = urllib.parse.quote_plus(l)
