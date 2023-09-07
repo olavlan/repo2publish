@@ -1,4 +1,3 @@
-import git
 import urllib
 from pathlib import Path
 import requests
@@ -74,7 +73,7 @@ def change_image_lines(lines):
 			new_lines[i] = change_image_line(l)
 	return new_lines, original_filenames
 
-def split_file(input_file):
+def split_file(input_file, output_folder=OUTPUT_FOLDER):
 	with open(input_file, "r") as f:
 		lines = f.readlines()
 
@@ -86,11 +85,11 @@ def split_file(input_file):
 	n = len(line_numbers_learning_objects)
 
 	for i in range(n):
-		fn = filenames_learning_objects[i]
+		fn = str(i) + "_" + filenames_learning_objects[i]
 		start = line_numbers_learning_objects[i]+1
 		end = line_numbers_learning_objects[i+1] if (i < n-1) else None
 
-		folder = os.path.join(OUTPUT_FOLDER, fn)
+		folder = os.path.join(output_folder, fn)
 		Path(folder).mkdir(parents=True, exist_ok=True)
 		fn_nob = fn + "_" + NOB + ".md"
 		fn_nno = fn + "_" + NNO + ".md"
@@ -144,27 +143,7 @@ def split_file(input_file):
 			out.writelines(yaml_front_matter(True))
 			out.writelines(lines_nno)
 
-def main():
-
-	#Create output folder:
-	Path(OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
-
-	#Clone repo (have to delete old input folder first):
-	repo_url = "https://github.com/"+ REPO_NAME + ".git"
-	if not os.path.isdir(INPUT_FOLDER):
-		repo = git.Repo.clone_from(repo_url, INPUT_FOLDER, branch = BRANCH)
-
-	#Get Markdown files
-	files = list(Path(INPUT_FOLDER).rglob("*.md" ))
-	
-	#Files with content
-	content_files = []
-	for f in files:
-		if  re.search("README", str(f)):
-			continue
-		else: 
-			content_files.append(f)
-
+def split_files(content_files):
 	#Progress message
 	n = len(content_files)
 	def progress_message(i, filename):
@@ -174,8 +153,3 @@ def main():
 	for i, f in enumerate(content_files):
 		split_file(f)
 		progress_message(i+1, f)
-
-
-
-if __name__ == "__main__":
-	main()

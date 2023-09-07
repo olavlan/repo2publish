@@ -9,29 +9,36 @@ nob_to_nno_base_url = 'https://apertium.org/apy/translate?format=html&markUnknow
 
 #Avoid translating certain parts of a single  line:
 #1. Inline code
+#2. Math
+
+inline_code_pattern = "(`[^`\n]+`)"
+inline_math_pattern = "(\$[^\$]+\$)"
 
 notrans_tag_name = "apertium-notrans"
-inline_code_pattern = "(`[^`\n]+`)"
-
 notrans_open_tag = "<" + notrans_tag_name + ">"
 notrans_close_tag = "</" + notrans_tag_name + ">"
 notrans_replace_string = notrans_open_tag + "\g<1>" + notrans_close_tag
-notrans_pattern = join_patterns([inline_code_pattern])
+
+notrans_pattern = join_patterns([inline_code_pattern, inline_math_pattern])
 notrans_tags_pattern = join_patterns([notrans_open_tag, notrans_close_tag])
+
 def add_notrans_tags(s):
 	return re.sub(notrans_pattern, notrans_replace_string, s)
 def remove_notrans_tags(s):
 	return re.sub(notrans_tags_pattern, "", s)
 
 
-#Some Markdown formatting needs to be explicitly encoded
+#Some characters needs to be explicitly encoded
+markdown_characters = ["\t", "\s\s", "*"]
+markdown_encodings = ["<tab>", "<space>", "<asterisk>"]
+
 def encode(s):
-	s = s.replace("\t", "<tab>")
-	s = s.replace("*", "<asterisk>")
+	for ch, enc in zip(markdown_characters, markdown_encodings):
+		s = s.replace(ch, enc)
 	return s
 def decode(s):
-	s = s.replace("<tab>", "\t")
-	s = s.replace("<asterisk>", "*")
+	for ch, enc in zip(markdown_characters, markdown_encodings):
+		s = s.replace(enc, ch)
 	return s
 
 #Translate line from nob to nno, avoiding patterns from above:
