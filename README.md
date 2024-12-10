@@ -15,7 +15,7 @@ python main.py
 
 ## What the program does
 
-1. Downloads the given Github repository consisting of Markdown files and media files.
+1. Downloads the given Github repository consisting of .ipynb files and media files.
 2. Creates a content folder which is prepared for the publishing platform, regardless of how the content was originally organized. The prepared folder is organized as follows:
 	- One folder for each article (learning object).
 	- This folder contains two markdown files and the media files to be included in the article.
