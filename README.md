@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 4. Run the main program
 ```
-python main.py
+python repo2publish.py
 ```
 
 ## What the program does
